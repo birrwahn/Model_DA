@@ -16,7 +16,7 @@ def plot_map(ds, ax=None, formatting=True, fs=15,
              colorlevels=10, extend='both', orientation='vertical',
              colormax=None, colormin=None,
              coastlines=True, grid=True):
-        """Plot 2D field with lon-lat grid.
+    """Plot 2D field with lon-lat grid.
 
         Call signature::
 
@@ -128,7 +128,6 @@ def plot_map(ds, ax=None, formatting=True, fs=15,
                             import numpy as np
                             import cartopy as cpy
                             import xarray as xr
-                            from matplotlib.ticker import FormatStrFormatter
     """
 
     assert isinstance(ds, xr.DataArray)
