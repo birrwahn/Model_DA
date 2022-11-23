@@ -16,6 +16,120 @@ def plot_map(ds, ax=None, formatting=True, fs=15,
              colorlevels=10, extend='both', orientation='vertical',
              colormax=None, colormin=None,
              coastlines=True, grid=True):
+        """Plot 2D field with lon-lat grid.
+
+        Call signature::
+
+            plot_map(ds, **kwargs)
+
+            use contourf function from matplotlib.pyplot.
+            Could be used for subplots plot due to ax argument.
+
+        Parameters
+        ----------
+        ds : 2D xarray.DataArray
+        The values over which the contour is drawn.
+
+        *ds* must be 2D array with lon-lat coordinates.
+        The structure of *ds*:
+            ds.coords:
+                    lat - 1D array with ``len(lat) == N``, float
+                    lon - 1D array with ``len(lon) == M``, flot
+                    ds.values -  (N,M) array
+
+        Returns
+        -------
+        `~.contourf(ds.lon, ds.lat, ds.values)`
+
+        Other Parameters
+        ----------------
+        ax : a single `~matplotlib.axes.Axes` object, default: None
+            Could be used to plot with `~plt.subplots`.
+
+            If not specified:
+            ax = plt.axes(projection = cartopy.crs.PlateCarree())
+
+        lat : str, default: 'lat'
+            Set the name of the latitude coordinate if is not equal 'lat'.
+
+            Example::
+                    lat = 'latitude'
+
+        lon : str, default: 'lon'
+            Set the name of the longitude coordinate if is not equal 'lon'.
+
+            Example::
+                    lon = 'longitude'
+
+        title : str, default: None
+            Set the title of the plot.
+
+        # FORMATTING & MAPPING
+
+        formatting : bool, default: True.
+            Format plot with:
+                font = {'sans-serif':'Montserrat', 'size': fs}
+                axes = {'spines.top':False, 'spines.right':False}
+                plt.rc('font',**font)
+                plt.rc('axes',**axes)
+                plt.rc('lines', linewidth = 1)
+
+            with
+
+        fs : int, default: 15
+            It is a fontsize for formatting parameters.
+
+        fr : str, default: %.0f
+            Format for colorbar ticks.
+
+        costlines : bolt, default: True
+            If ``True`` add costlines with `~.costlines()`.
+
+        grid : bolt, default: True
+            If ``True`` add grid with `~.gridlines()`.
+
+        extent : array-like, default: None
+            If mapping subregion, format: [lon1, lon2, lat1, lat2]
+
+        # COLORMAP & COLORBAR
+
+        cmap : str or `.Colormap`, default: 'Spectral_r'
+            A `.Colormap` instance or registered colormap name.
+            !!! `~.contourf()` parameter
+
+         extend : {'neither', 'both', 'min', 'max'}, default: 'both'
+            Determines the coloring of values that are outside
+            the *colorlevels* range.
+            !!! `~.contourf()` parameter
+
+            If 'neither', values outside the *levels* range are not colored.
+            If 'min', 'max' or 'both', color the values below, above or below
+            and above the *levels* range.
+
+        orientation : None or {'vertical', 'horizontal'}, default: 'vertical'
+            The orientation of the colorbar.
+            !!! `~.colorbar()` parameter
+
+        colormin, colormax, colorlevels : float,
+                                             default:
+                                                 colormin = ds.values.min()
+                                                 colormax = ds.values.max()
+                                                 colorlevels = 10
+            Parameters for `~.contourf(levels=np.linspace(colormin,
+                                                          colormax,
+                                                          colorlevels))`
+
+            Determines the number and positions of the contour regions.
+
+        Notes
+        -----
+        Required libraries:
+                            import matplotlib.pyplot as plt
+                            import numpy as np
+                            import cartopy as cpy
+                            import xarray as xr
+                            from matplotlib.ticker import FormatStrFormatter
+    """
 
     assert isinstance(ds, xr.DataArray)
     assert lon in ds.coords
